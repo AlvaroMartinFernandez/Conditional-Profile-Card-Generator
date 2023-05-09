@@ -27,21 +27,57 @@ function render(variables = {}) {
   // here we ask the logical questions to make decisions on how to build the html
   // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
   let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
+
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
+  let twitter = `<li><a href="${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`;
+  let github = `<li><a href="${variables.github}"><i class="fab fa-github"></i></a></li>`;
+  let linkedin = `<li><a href="${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`;
+  let instagram = `<li><a href="${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`;
+
+  let redesSociales = `<ul class=${variables.socialMediaPosition}>
+  ${twitter}
+  ${github}
+  ${linkedin}
+  ${instagram}
+</ul>`;
+
+  variables.twitter === null
+    ? (twitter = "")
+    : (twitter = `<li><a href="${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`);
+
+  variables.github === null
+    ? (github = "")
+    : (github = `<li><a href="${variables.github}"><i class="fab fa-github"></i></a></li>`);
+
+  variables.linkedin === null
+    ? (linkedin = "")
+    : (linkedin = `<li><a href="${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`);
+
+  variables.instagram === null
+    ? (instagram = "")
+    : (instagram = `<li><a href="${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`);
+
+  variables.twitter === null &&
+  variables.github === null &&
+  variables.linkedin === null &&
+  variables.instagram === null
+    ? (redesSociales = "")
+    : (redesSociales = `<ul class=${variables.socialMediaPosition}>
+    ${twitter}
+    ${github}
+    ${linkedin}
+    ${instagram}
+  </ul>`);
 
   // reset the website body with the new html output
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
-          <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
-          </ul>
+          <img src=${variables.avatarURL} class="photo" />
+          <h1>${variables.name} ${variables.lastname}</h1>
+          <h2>${variables.role}</h2>
+          <h3>${variables.city}, ${variables.country}</h3>
+          ${redesSociales}
+          <button id="correoBoton">Contacto</button>
         </div>
     `;
 }
@@ -61,17 +97,23 @@ window.onload = function() {
     socialMediaPosition: "position-left",
     // social media usernames
     twitter: null,
-    github: "alesanchezr",
+    github: null,
     linkedin: null,
     instagram: null,
-    name: null,
-    lastname: null,
-    role: null,
-    country: null,
-    city: null
+    name: "Name",
+    lastname: "Last Name",
+    role: "Your Role",
+    country: "Your country",
+    city: "Your city"
   };
-  render(window.variables); //render the card for the first time
 
+  render(window.variables); //render the card for the first time
+  document.getElementById("correoBoton").addEventListener("click", function() {
+    var destinatario = "contacto@ejemplo.com";
+    var asunto = "email de contacto";
+    window.location.href =
+      "mailto:" + destinatario + "?subject=" + encodeURIComponent(asunto);
+  });
   document.querySelectorAll(".picker").forEach(function(elm) {
     elm.addEventListener("change", function(e) {
       // <- add a listener to every input
