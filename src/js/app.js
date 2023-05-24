@@ -80,6 +80,12 @@ function render(variables = {}) {
           <button id="correoBoton">Contacto</button>
         </div>
     `;
+  document.getElementById("correoBoton").addEventListener("click", function() {
+    var destinatario = "contacto@ejemplo.com";
+    var asunto = "email de contacto";
+    window.location.href =
+      "mailto:" + destinatario + "?subject=" + encodeURIComponent(asunto);
+  });
 }
 
 /**
@@ -108,12 +114,7 @@ window.onload = function() {
   };
 
   render(window.variables); //render the card for the first time
-  document.getElementById("correoBoton").addEventListener("click", function() {
-    var destinatario = "contacto@ejemplo.com";
-    var asunto = "email de contacto";
-    window.location.href =
-      "mailto:" + destinatario + "?subject=" + encodeURIComponent(asunto);
-  });
+
   document.querySelectorAll(".picker").forEach(function(elm) {
     elm.addEventListener("change", function(e) {
       // <- add a listener to every input
